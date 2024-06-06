@@ -48,9 +48,40 @@ public class BackendComm {
             return 400;
         }
     }
+    
+    static public int pickItem(String robot) {
+        try {
+            String uri = baseUri + "bot/" + robot + "/pick";
+            System.out.println(uri);
+            HttpRequest req = HttpRequest.newBuilder(new URI(uri)).PUT(BodyPublishers.noBody()).build();
+            HttpResponse res = httpClient.send(req, BodyHandlers.ofString());
+            System.out.println("StatusCode: " + res.statusCode());
+            return res.statusCode();
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            return 400;
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return 400;
+        }
+    }
 
-
-
+    static public int dropItem(String robot) {
+        try {
+            String uri = baseUri + "bot/" + robot + "/place";
+            System.out.println(uri);
+            HttpRequest req = HttpRequest.newBuilder(new URI(uri)).PUT(BodyPublishers.noBody()).build();
+            HttpResponse res = httpClient.send(req, BodyHandlers.ofString());
+            System.out.println("StatusCode: " + res.statusCode());
+            return res.statusCode();
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            return 400;
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return 400;
+        }
+    }
     /*
      * Calls the "get info" for a robot. 
      * Only returns the status code.

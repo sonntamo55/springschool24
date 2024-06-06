@@ -7,125 +7,127 @@ import com.festo.communication.BackendComm;
 import com.festo.communication.Direction;
 
 import javafx.application.Application;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 
 public class App extends Application {
+    static final Double SWPOS = 70.;
+    static final Double INIT = 72.;
 
     @Override
     public void start(Stage stage) {
-        //moveRob(stage);
-        //imageshow(stage);
-        moveRobWeb(stage);
         
+        //moveRobWeb(stage);
+        moveRobImage(stage);
     }
-
-    private void imageshow(Stage stage)
+    private void ButtonSide(double dHigh, double dsetX, double  dsetY, Button b1)
+    {
+        b1.setPrefHeight(dHigh);
+        b1.setLayoutX(dsetX);
+        b1.setLayoutY(dsetY);
+        b1.setAlignment(Pos.CENTER);
+    }
+  
+    private void moveRobImage(Stage stage)
     {
         ImageView iv = null;
+        //ImageView bv = null;
+
+        var lb = new Label("Result: ");
+        Button north = new Button("Move North");
+        Button south = new Button("Move South");
+        Button west = new Button("Move West");
+        Button east = new Button("Move East");
+        Button init = new Button("Initialisieren");
+        ButtonSide(20, 200, 300, north);
+        ButtonSide(20, 10, 300, south);
+        ButtonSide(20, 10, 350, west);
+        ButtonSide(20, 200, 350, east);
+        ButtonSide(20, 100, 400, init);
+
         try {
-            
-            FileInputStream inputstream = new FileInputStream("/home/user/springschool24/src/main/resources/com/festo/labyrinth-simple.png");
+            FileInputStream inputstream = new FileInputStream("/home/user/lab/warehouse/springschool24/src/main/resources/com/festo/labyrinth-simple.png");
+            FileInputStream robotinputstream = new FileInputStream("/home/user/lab/warehouse/springschool24/src/main/resources/com/festo/robo.png");
             Image image = new Image(inputstream);
+            Image robot = new Image(robotinputstream);
             iv = new ImageView(image);
+            ImageView bv = new ImageView(robot); 
+            
+            
+            bv.setLayoutX(INIT);
+            bv.setLayoutY(INIT);
+            
+            north.setOnAction((e) -> {
+                int statusCode = BackendComm.moveRobot("jason", Direction.NORTH);
+                if (statusCode == 200) {
+                    lb.setText("Result: SUCCESS Move North");
+                    bv.setLayoutY(bv.getLayoutY()- SWPOS);
+                } else {
+                    lb.setText("Result: FAILURE Move North");
+                }
+            
+            });
+            
+            south.setOnAction((e) -> {
+                int statusCode = BackendComm.moveRobot("jason", Direction.SOUTH);
+                if (statusCode == 200) {
+                    lb.setText("Result: SUCCESS Move South");
+                    bv.setLayoutY(bv.getLayoutY() + SWPOS);
+                } else {
+                    lb.setText("Result: FAILURE Move South");
+                }
+            });
+            east.setOnAction((e) -> {
+                int statusCode = BackendComm.moveRobot("jason", Direction.EAST);
+                if (statusCode == 200) {
+                    lb.setText("Result: SUCCESS Move East");
+                    bv.setLayoutX(bv.getLayoutX()+ SWPOS);
+                } else {
+                    lb.setText("Result: FAILURE Move East");
+                }
+            });
+            west.setOnAction((e) -> {
+                int statusCode = BackendComm.moveRobot("jason", Direction.WEST);
+                if (statusCode == 200) {
+                    lb.setText("Result: SUCCESS Move West");
+                    bv.setLayoutX(bv.getLayoutX()- SWPOS);
+                } else {
+                    lb.setText("Result: FAILURE Move West");
+                }
+            });
+            init.setOnAction((e) -> {
+                int statusCode = BackendComm.resetRobot("jason");
+                if (statusCode == 200) {
+                    lb.setText("Result: SUCCESS Robot initialized");
+                    bv.setLayoutX(INIT);
+                    bv.setLayoutY(INIT);
+                } else {
+                    lb.setText("Result: FAILURE Robot lost");
+                }
+
+            });
+            Pane pane = new Pane();
+            pane.getChildren().addAll(iv, north, south, west, east, lb, init, bv);
+       
+            var scene = new Scene(pane, 640, 480);
+            stage.setScene(scene);
+            stage.show();
+
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }
+        } 
+
+
     }
 
-    private void moveRobWeb(Stage stage)
-    {
-        Pane pane = new Pane();
-        Label lb = new Label("Result: ");
-        lb.setPrefHeight(50);
-        lb.setAlignment(Pos.CENTER);
-        //lb.setVisible(false);
-        Button north = new Button("Move North");
-        north.setPrefHeight(20);
-        north.setLayoutX(200);
-        north.setLayoutY(300);
-        north.setAlignment(Pos.CENTER);
-        north.setOnAction((e) -> {
-            int statusCode = BackendComm.moveRobot("jason", Direction.NORTH);
-            if (statusCode == 200) {
-                lb.setText("Result: SUCCESS Move North");
-            } else {
-                lb.setText("Result: FAILURE Move North");
-            }
-        });
-        Button south = new Button("Move South");
-        south.setPrefHeight(20);
-        south.setLayoutX(10);
-        south.setLayoutY(300);
-        south.setAlignment(Pos.CENTER);
-        south.setOnAction((e) -> {
-            int statusCode = BackendComm.moveRobot("jason", Direction.SOUTH);
-            if (statusCode == 200) {
-                lb.setText("Result: SUCCESS Move South");
-            } else {
-                lb.setText("Result: FAILURE Move South");
-            }
-        });
-        Button east = new Button("Move East");
-        east.setPrefHeight(20);
-        east.setLayoutX(200);
-        east.setLayoutY(350);
-        east.setAlignment(Pos.CENTER);
-        east.setOnAction((e) -> {
-            int statusCode = BackendComm.moveRobot("jason", Direction.EAST);
-            if (statusCode == 200) {
-                lb.setText("Result: SUCCESS Move East");
-            } else {
-                lb.setText("Result: FAILURE Move East");
-            }
-        });
-        Button west = new Button("Move West");
-        west.setPrefHeight(20);
-        west.setLayoutX(10);
-        west.setLayoutY(350);        
-        west.setAlignment(Pos.CENTER);
-        west.setOnAction((e) -> {
-            int statusCode = BackendComm.moveRobot("jason", Direction.WEST);
-            if (statusCode == 200) {
-                lb.setText("Result: SUCCESS Move West");
-            } else {
-                lb.setText("Result: FAILURE Move West");
-            }
-        });
-
-        pane.getChildren().addAll(north, west, east, south, lb);
-
-        Scene scene = new Scene(pane, 600, 400);
-        stage.setScene(scene);
-        stage.setTitle("First Game");
-        stage.show();
-    }
-
-    private void moveRob(Stage stage)
-    {
-        var lb = new Label("Result: ");
-        Button bt = new Button("Move jason to east");
-        bt.setOnAction((e) -> {
-            int statusCode = BackendComm.moveRobot("jason", Direction.NORTH);
-            if (statusCode == 200) {
-                lb.setText("Result: SUCCESS");
-            } else {
-                lb.setText("Result: FAILURE");
-            }
-        });
-        
-        stage.show();
-    }
 
     public static void main(String[] args) {
         launch();

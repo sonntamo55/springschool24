@@ -32,7 +32,7 @@ public class Gui {
         Button bts = new Button("Move Gilbert to south");
 
         bte.setOnAction((e) -> {
-            int statusCode = BackendComm.moveRobot("Gilbert", Direction.EAST);
+            int statusCode = BackendComm.moveRobot("Gilbert", 2);
             if (statusCode == 200) {
                 lb.setText("Result: SUCCESS");
             } else {
@@ -41,7 +41,7 @@ public class Gui {
         });
 
         btw.setOnAction((e) -> {
-            int statusCode = BackendComm.moveRobot("Gilbert", Direction.WEST);
+            int statusCode = BackendComm.moveRobot("Gilbert", 4);
             if (statusCode == 200) {
                 lb.setText("Result: SUCCESS");
             } else {
@@ -50,7 +50,7 @@ public class Gui {
         });
 
         btn.setOnAction((e) -> {
-            int statusCode = BackendComm.moveRobot("Gilbert", Direction.NORTH);
+            int statusCode = BackendComm.moveRobot("Gilbert", 1);
             if (statusCode == 200) {
                 lb.setText("Result: SUCCESS");
             } else {
@@ -59,7 +59,7 @@ public class Gui {
         });
 
         bts.setOnAction((e) -> {
-            int statusCode = BackendComm.moveRobot("Gilbert", Direction.SOUTH);
+            int statusCode = BackendComm.moveRobot("Gilbert", 3);
             if (statusCode == 200) {
                 lb.setText("Result: SUCCESS");
             } else {

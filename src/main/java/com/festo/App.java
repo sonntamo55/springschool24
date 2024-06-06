@@ -1,6 +1,7 @@
 package com.festo;
 
 import com.festo.communication.BackendComm;
+import com.festo.communication.Gui;
 import com.festo.communication.Movement;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -11,9 +12,10 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
-
+        new Gui().start(stage);
     }
     public static void main(String[] args) {
+        launch();
         String robot = "gilbert";
 
         Movement warehouse = new Movement();

@@ -22,6 +22,7 @@ public class App extends Application {
     public void start(Stage stage) {
         new Gui().start(stage);
     }
+    
     public static void main(String[] args) {
         launch();
     }

@@ -109,6 +109,36 @@ public class App extends Application {
             robotImageView.setTranslateY(-140);
         });
         //**********************************
+        
+        Button bt_pick = new Button("Pick package");
+        bt_pick.setOnAction((e)-> {
+        if(!robot.get_robothasitem()) {
+            int statusCode = BackendComm.pickItem(robot.getname());
+            if (statusCode == 200) {
+                lb.setText("Robot picked: ");
+            } else {
+                lb.setText("Robot could not pick item");
+            }
+            robot.pickitem();
+        } else {
+            lb.setText("Robot already has item");
+        }
+        });
+        Button bt_drop = new Button("Place package");
+        bt_drop.setOnAction((e)-> {
+        if(robot.get_robothasitem()) {
+            int statusCode = BackendComm.pickItem(robot.getname());
+            if (statusCode == 200) {
+                lb.setText("Robot placed: ");
+            } else {
+                lb.setText("Robot could not place item");
+            }
+            robot.placeitem();
+            } else {
+                lb.setText("Robot has no item");
+            }
+        });
+        
         gridPane.getChildren().addAll(bt_e, bt_n, bt_s, bt_w);
 
         Image imageFild = new Image(new FileInputStream("src/main/resources/com/festo/labyrinth-simple.png"));
@@ -120,7 +150,7 @@ public class App extends Application {
         vb.setPadding(new Insets(10, 10, 10, 10));
         vb.setSpacing(10);
         
-        vb.getChildren().addAll(lb_2, tf, bt_name, bt_reset, gridPane, lb, stackPane);
+        vb.getChildren().addAll(lb_2, tf, bt_name, bt_reset, bt_pick, bt_drop, gridPane, lb, stackPane);
         var scene = new Scene(vb, 640, 480);
         stage.setScene(scene);
         stage.show();

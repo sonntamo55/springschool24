@@ -15,9 +15,18 @@ public class BackendComm {
 
     static String baseUri = "http://springschool-lb-54580289.eu-central-1.elb.amazonaws.com/api/";
 
-    static public int moveRobot(String robot, Direction d) {
+    static public int moveRobot(String robot, int d) {
         try {
-            String uri = baseUri + "bot/" + robot + "/move/" + d.toString().toLowerCase();
+            String direction = "";
+            switch (d) {
+                case 1: {direction = "north";break;}
+                case 2: {direction = "east";break;}
+                case 3: {direction = "south";break;}
+                case 4: {direction = "west";break;}
+                default:
+                    break;
+            }
+            String uri = baseUri + "bot/" + robot + "/move/" + direction;
             System.out.println(uri);
             HttpRequest req = HttpRequest.newBuilder(new URI(uri)).PUT(BodyPublishers.noBody()).build();
             HttpResponse<String> res = httpClient.send(req, BodyHandlers.ofString());

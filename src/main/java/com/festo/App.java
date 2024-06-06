@@ -24,7 +24,7 @@ public class App extends Application {
         var lb = new Label("Result: ");
         Button bt = new Button("Move ricky to east");
         bt.setOnAction((e) -> {
-            int statusCode = BackendComm.moveRobot( robot, Direction.EAST);
+            int statusCode = BackendComm.moveRobot( robot, 2);
             if (statusCode == 200) {
                 lb.setText("Result: SUCCESS");
             } else {

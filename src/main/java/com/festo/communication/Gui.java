@@ -1,5 +1,8 @@
 package com.festo.communication;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -19,8 +22,14 @@ public class Gui {
 
     public Gui() {
         this.backendComm = new BackendComm();
-        this.movement = new Movement();
-        this.movement.setnameRobot("Gilbert");
+                List[][] array = new List[3][3];
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[i].length; j++) {
+                array[i][j] = new ArrayList<>();
+            }
+        }
+        this.movement = new Movement(array);
+        this.movement.setnameRobot("gilbert");
     }
 
     public void start(Stage stage) {

@@ -1,5 +1,8 @@
 package com.festo;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 import com.festo.communication.BackendComm;
 import com.festo.communication.Direction;
 
@@ -9,28 +12,41 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.scene.image.ImageView;
 
 
-/**
- * JavaFX App
- */
 public class App extends Application {
 
     @Override
     public void start(Stage stage) {
         //moveRob(stage);
+        //imageshow(stage);
         moveRobWeb(stage);
         
+    }
+
+    private void imageshow(Stage stage)
+    {
+        ImageView iv = null;
+        try {
+            
+            FileInputStream inputstream = new FileInputStream("/home/user/springschool24/src/main/resources/com/festo/labyrinth-simple.png");
+            Image image = new Image(inputstream);
+            iv = new ImageView(image);
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     private void moveRobWeb(Stage stage)
     {
         Pane pane = new Pane();
-        var lb = new Label("Result: ");
-        //Label lb = new Label("Result: ");
+        Label lb = new Label("Result: ");
         lb.setPrefHeight(50);
         lb.setAlignment(Pos.CENTER);
         //lb.setVisible(false);
@@ -107,12 +123,7 @@ public class App extends Application {
                 lb.setText("Result: FAILURE");
             }
         });
-        VBox vb = new VBox();
-        vb.setPadding(new Insets(10, 10, 10, 10));
-        vb.setSpacing(10);
-        vb.getChildren().addAll(bt, lb);
-        var scene = new Scene(vb, 640, 480);
-        stage.setScene(scene);
+        
         stage.show();
     }
 

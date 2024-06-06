@@ -16,7 +16,7 @@ public class Gui {
         var lb = new Label("Result: ");
         Button bt = new Button("Move gilbert to east");
         bt.setOnAction((e) -> {
-            int statusCode = BackendComm.moveRobot("gilbert", Direction.EAST);
+            int statusCode = BackendComm.moveRobot("gilbert", 1);
             if (statusCode == 200) {
                 lb.setText("Result: SUCCESS");
             } else {

@@ -10,6 +10,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -20,7 +21,6 @@ import javafx.stage.Stage;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.Scanner;
 
 /**
  * JavaFX App
@@ -34,6 +34,19 @@ public class App extends Application {
         TextField tf = new TextField(robot.getname());
         var lb_2 = new Label("Enter robot name: ");
         var lb = new Label("Result: ");
+        int aktPosX = -175;
+        int aktPosY = -140;
+        BackendComm.resetRobot(robot.getname());
+
+        Image robotImage = new Image(new FileInputStream("src/main/resources/com/festo/robo.png"));
+        ImageView robotImageView = new ImageView(robotImage);
+        
+        StackPane stackPane = new StackPane();
+        stackPane.setPadding(new Insets(10));
+
+        // Roboter-Bild positionieren
+        robotImageView.setTranslateX(aktPosX); 
+        robotImageView.setTranslateY(aktPosY);
         
         GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(10));
@@ -46,6 +59,7 @@ public class App extends Application {
             int statusCode = BackendComm.moveRobot( robot.getname(), Direction.EAST);
             if (statusCode == 200) {
                 lb.setText("Result: SUCCESS");
+                robotImageView.setTranslateX(robotImageView.getTranslateX()+70);
             } else {
                 lb.setText("Result: FAILURE");
             }
@@ -56,6 +70,7 @@ public class App extends Application {
             int statusCode = BackendComm.moveRobot(robot.getname(), Direction.WEST);
             if (statusCode == 200) {
                 lb.setText("Result: SUCCESS");
+                robotImageView.setTranslateX(robotImageView.getTranslateX()-70);
             } else {
                 lb.setText("Result: FAILURE");
             }
@@ -66,6 +81,7 @@ public class App extends Application {
             int statusCode = BackendComm.moveRobot(robot.getname(), Direction.NORTH);
             if (statusCode == 200) {
                 lb.setText("Result: SUCCESS");
+                robotImageView.setTranslateY(robotImageView.getTranslateY()-70);
             } else {
                 lb.setText("Result: FAILURE");
             }
@@ -76,6 +92,7 @@ public class App extends Application {
             int statusCode = BackendComm.moveRobot(robot.getname(), Direction.SOUTH);
             if (statusCode == 200) {
                 lb.setText("Result: SUCCESS");
+                robotImageView.setTranslateY(robotImageView.getTranslateY()+70);
             } else {
                 lb.setText("Result: FAILURE");
             }
@@ -86,19 +103,21 @@ public class App extends Application {
         });
 
         gridPane.getChildren().addAll(bt_e, bt_n, bt_s, bt_w);
-        Image image = new Image(new FileInputStream("src/main/resources/com/festo/labyrinth-simple.png"));
-        ImageView imageView = new ImageView(image);
+
+       
+
+        Image imageFild = new Image(new FileInputStream("src/main/resources/com/festo/labyrinth-simple.png"));
+        ImageView fieldImageView = new ImageView(imageFild);
+
+        stackPane.getChildren().addAll(fieldImageView, robotImageView);
+
         VBox vb = new VBox();
         vb.setPadding(new Insets(10, 10, 10, 10));
         vb.setSpacing(10);
-        //vb.getChildren().addAll(tf, bt_n, bt_w, bt_e, bt_s, lb, ImageView);
-        vb.getChildren().addAll(lb_2, tf, bt_name, gridPane, lb, imageView);
+        
+        vb.getChildren().addAll(lb_2, tf, bt_name, gridPane, lb, stackPane);
         var scene = new Scene(vb, 640, 480);
-
-        
-
         stage.setScene(scene);
-        
         stage.show();
     }
 

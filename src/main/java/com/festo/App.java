@@ -16,13 +16,15 @@ import javafx.stage.Stage;
  * JavaFX App
  */
 public class App extends Application {
+    static String robot = "gilbert"; //Name of our Robot
+
 
     @Override
     public void start(Stage stage) {
         var lb = new Label("Result: ");
         Button bt = new Button("Move ricky to east");
         bt.setOnAction((e) -> {
-            int statusCode = BackendComm.moveRobot("ricky", Direction.EAST);
+            int statusCode = BackendComm.moveRobot( robot, Direction.EAST);
             if (statusCode == 200) {
                 lb.setText("Result: SUCCESS");
             } else {

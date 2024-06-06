@@ -37,7 +37,7 @@ public class App extends Application {
                 resetStatus = backendcom.reset(robot);
                 System.out.println("Reset status: " + resetStatus);
             } else {
-                int moveStatus = warehouse.moveRobot(backendcom, direction);
+                int moveStatus = warehouse.moveRobot("gilbert", direction);
                 System.out.println("Move status: " + moveStatus);
             }
         }

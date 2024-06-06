@@ -14,6 +14,15 @@ import javafx.scene.image.ImageView;
 
 public class Gui {
 
+    private Movement movement;
+    private BackendComm backendComm;
+
+    public Gui() {
+        this.backendComm = new BackendComm();
+        this.movement = new Movement();
+        this.movement.setnameRobot("Gilbert");
+    }
+
     public void start(Stage stage) {
         var lb = new Label("Result: ");
 
@@ -32,7 +41,7 @@ public class Gui {
         Button bts = new Button("Move Gilbert to south");
 
         bte.setOnAction((e) -> {
-            int statusCode = BackendComm.moveRobot("Gilbert", 2);
+            int statusCode = movement.moveRobot("gilbert", 2);
             if (statusCode == 200) {
                 lb.setText("Result: SUCCESS");
             } else {
@@ -41,7 +50,7 @@ public class Gui {
         });
 
         btw.setOnAction((e) -> {
-            int statusCode = BackendComm.moveRobot("Gilbert", 4);
+            int statusCode = movement.moveRobot("gilbert", 4);
             if (statusCode == 200) {
                 lb.setText("Result: SUCCESS");
             } else {
@@ -50,7 +59,7 @@ public class Gui {
         });
 
         btn.setOnAction((e) -> {
-            int statusCode = BackendComm.moveRobot("Gilbert", 1);
+            int statusCode = movement.moveRobot("gilbert", 1);
             if (statusCode == 200) {
                 lb.setText("Result: SUCCESS");
             } else {
@@ -59,7 +68,7 @@ public class Gui {
         });
 
         bts.setOnAction((e) -> {
-            int statusCode = BackendComm.moveRobot("Gilbert", 3);
+            int statusCode = movement.moveRobot("gilbert", 3);
             if (statusCode == 200) {
                 lb.setText("Result: SUCCESS");
             } else {

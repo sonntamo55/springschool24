@@ -8,7 +8,7 @@ public class Movement {
         this.robot = robot;
     }
 
-    public int moveRobot(BackendComm bc, int direction) {
-        return bc.moveRobot(robot, direction);
+    public int moveRobot(String robot, int direction) {
+        return BackendComm.moveRobot(robot, direction);
     }
 }

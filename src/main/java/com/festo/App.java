@@ -46,11 +46,11 @@ public class App extends Application {
         Button west = new Button("Move West");
         Button east = new Button("Move East");
         Button init = new Button("Initialisieren");
-        ButtonSide(20, 200, 300, north);
-        ButtonSide(20, 10, 300, south);
-        ButtonSide(20, 10, 350, west);
-        ButtonSide(20, 200, 350, east);
-        ButtonSide(20, 100, 400, init);
+        ButtonSide(20, 100, 425, north);
+        ButtonSide(20, 100, 475, south);
+        ButtonSide(20, 10, 450, west);
+        ButtonSide(20, 195, 450, east);
+        ButtonSide(20, 10, 30, init);
 
         try {
             FileInputStream inputstream = new FileInputStream("/home/user/lab/warehouse/springschool24/src/main/resources/com/festo/labyrinth-simple.png");
@@ -116,7 +116,7 @@ public class App extends Application {
             Pane pane = new Pane();
             pane.getChildren().addAll(iv, north, south, west, east, lb, init, bv);
        
-            var scene = new Scene(pane, 640, 480);
+            var scene = new Scene(pane, 560, 500);
             stage.setScene(scene);
             stage.show();
 

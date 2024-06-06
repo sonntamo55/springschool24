@@ -13,7 +13,6 @@ public class App extends Application {
     public void start(Stage stage) {
         // GUI is not implemented, so we leave this empty
     }
-
     public static void main(String[] args) {
         String robot = "gilbert";
 

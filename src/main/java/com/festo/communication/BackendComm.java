@@ -15,6 +15,25 @@ public class BackendComm {
 
     static String baseUri = "http://springschool-lb-54580289.eu-central-1.elb.amazonaws.com/api/";
 
+    public int reset(String robot){
+        try {
+            String uri = baseUri + "james/" + robot + "/reset";
+            System.out.println(uri);
+            HttpRequest req = HttpRequest.newBuilder(new URI(uri)).PUT(BodyPublishers.noBody()).build();
+            HttpResponse<String> res = httpClient.send(req, BodyHandlers.ofString());
+            System.out.println("StatusCode: " + res.statusCode());
+            return res.statusCode();
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            return 400;
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return 400;
+        }
+
+
+    }
+
     static public int moveRobot(String robot, int d) {
         try {
             String direction = "";

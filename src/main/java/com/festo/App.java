@@ -5,6 +5,9 @@ import java.io.FileNotFoundException;
 
 import com.festo.communication.BackendComm;
 import com.festo.communication.Direction;
+import com.festo.controlling.ButtonHelper;
+import com.festo.controlling.Constants;
+import com.festo.controlling.RobotController;
 
 import javafx.application.Application;
 import javafx.geometry.Pos;
@@ -25,8 +28,56 @@ public class App extends Application {
     public void start(Stage stage) {
         
         //moveRobWeb(stage);
-        moveRobImage(stage);
+        //moveRobImage(stage);
+
+        Label resultLabel = new Label("Result: ");
+        Button north = new Button("Move North");
+        Button south = new Button("Move South");
+        Button west = new Button("Move West");
+        Button east = new Button("Move East");
+        Button init = new Button("Initialisieren");
+
+        ButtonHelper.setButtonProperties(20, 200, 300, north);
+        ButtonHelper.setButtonProperties(20, 10, 300, south);
+        ButtonHelper.setButtonProperties(20, 10, 350, west);
+        ButtonHelper.setButtonProperties(20, 200, 350, east);
+        ButtonHelper.setButtonProperties(20, 100, 400, init);
+
+        try {
+            FileInputStream imageStream = new FileInputStream("/home/user/springschool24/src/main/resources/com/festo/labyrinth-simple.png");
+            FileInputStream robotStream = new FileInputStream("/home/user/springschool24/src/main/resources/com/festo/robo.png");
+            Image backgroundImage = new Image(imageStream);
+            Image robotImage = new Image(robotStream);
+            ImageView backgroundView = new ImageView(backgroundImage);
+            ImageView robotView = new ImageView(robotImage);
+
+            robotView.setLayoutX(Constants.INIT);
+            robotView.setLayoutY(Constants.INIT);
+
+            RobotController controller = new RobotController(robotView, resultLabel);
+            controller.initializeRobot(init);
+            controller.moveRobot(north, Direction.NORTH);
+            controller.moveRobot(south, Direction.SOUTH);
+            controller.moveRobot(east, Direction.EAST);
+            controller.moveRobot(west, Direction.WEST);
+
+            Pane pane = new Pane();
+            pane.getChildren().addAll(backgroundView, north, south, west, east, resultLabel, init, robotView);
+
+            Scene scene = new Scene(pane, 640, 480);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (FileNotFoundException e) 
+        {
+            e.printStackTrace();
+        }
+    } 
+
+    public static void main(String[] args) {
+        launch(args);
     }
+
     private void ButtonSide(double dHigh, double dsetX, double  dsetY, Button b1)
     {
         b1.setPrefHeight(dHigh);
@@ -53,8 +104,8 @@ public class App extends Application {
         ButtonSide(20, 100, 400, init);
 
         try {
-            FileInputStream inputstream = new FileInputStream("/home/user/lab/warehouse/springschool24/src/main/resources/com/festo/labyrinth-simple.png");
-            FileInputStream robotinputstream = new FileInputStream("/home/user/lab/warehouse/springschool24/src/main/resources/com/festo/robo.png");
+            FileInputStream inputstream = new FileInputStream("/home/user/springschool24/src/main/resources/com/festo/labyrinth-simple.png");
+            FileInputStream robotinputstream = new FileInputStream("/home/user/springschool24/src/main/resources/com/festo/robo.png");
             Image image = new Image(inputstream);
             Image robot = new Image(robotinputstream);
             iv = new ImageView(image);
@@ -128,9 +179,5 @@ public class App extends Application {
 
     }
 
-
-    public static void main(String[] args) {
-        launch();
-    }
 
 }

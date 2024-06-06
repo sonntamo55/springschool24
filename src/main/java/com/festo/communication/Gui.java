@@ -12,10 +12,12 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
-public class Gui {
+public class Gui extends Application{
 
     private Movement movement;
     private BackendComm backendComm;
@@ -35,13 +37,9 @@ public class Gui {
     public void start(Stage stage) {
         var lb = new Label("Result: ");
 
-
         // Image laden
         Image image = new Image(getClass().getResourceAsStream("/com/festo/labyrinth-simple.png"));
         ImageView imageView = new ImageView(image);
-
-
-
 
         //Buttons
         Button bte = new Button("Move Gilbert to east");
@@ -50,7 +48,7 @@ public class Gui {
         Button bts = new Button("Move Gilbert to south");
 
         bte.setOnAction((e) -> {
-            int statusCode = movement.moveRobot("gilbert", 2);
+            int statusCode = movement.moveRobot(backendComm, 2);
             if (statusCode == 200) {
                 lb.setText("Result: SUCCESS");
             } else {
@@ -59,7 +57,7 @@ public class Gui {
         });
 
         btw.setOnAction((e) -> {
-            int statusCode = movement.moveRobot("gilbert", 4);
+            int statusCode = movement.moveRobot(backendComm, 4);
             if (statusCode == 200) {
                 lb.setText("Result: SUCCESS");
             } else {
@@ -68,7 +66,7 @@ public class Gui {
         });
 
         btn.setOnAction((e) -> {
-            int statusCode = movement.moveRobot("gilbert", 1);
+            int statusCode = movement.moveRobot(backendComm, 1);
             if (statusCode == 200) {
                 lb.setText("Result: SUCCESS");
             } else {
@@ -77,7 +75,7 @@ public class Gui {
         });
 
         bts.setOnAction((e) -> {
-            int statusCode = movement.moveRobot("gilbert", 3);
+            int statusCode = movement.moveRobot(backendComm, 3);
             if (statusCode == 200) {
                 lb.setText("Result: SUCCESS");
             } else {

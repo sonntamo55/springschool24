@@ -19,7 +19,7 @@ public class Movement {
 
     public int moveRobot(BackendComm bc, int direction) {
         int httpStatus = bc.moveRobot(robot, direction);
-        if (httpStatus == 200) {// if movement worked go ahead
+        if (httpStatus == 200) { // If movement succeeded, update position
             switch (direction) {
                 case 1: // Move north
                     if (positionY < array[0].length - 1) {
@@ -42,7 +42,7 @@ public class Movement {
                     }
                     break;
                 default:
-                    System.out.println("Direction wrong...........restart!!!!");
+                    System.out.println("Direction is incorrect. Restarting!");
                     break;
             }
         }

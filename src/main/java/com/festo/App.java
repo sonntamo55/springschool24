@@ -28,8 +28,8 @@ public class App extends Application {
     public void start(Stage stage) throws FileNotFoundException {
         Robot robot = new Robot();
         TextField tf = new TextField(robot.getname());
+        var lb_2 = new Label("Enter robot name: ");
         var lb = new Label("Result: ");
-        lb.setText("Enter robot name: ");
         Button bt_e = new Button("Move " + robot.getname() + " to east");
         bt_e.setOnAction((e) -> {
             int statusCode = BackendComm.moveRobot( robot.getname(), Direction.EAST);
@@ -68,13 +68,13 @@ public class App extends Application {
         });
         Button bt_name = new Button("Set robot name");
         bt_name.setOnAction((e)-> {
-            robot.setname(lb.getText());
+            robot.setname(tf.getText());
         });
 
         VBox vb = new VBox();
         vb.setPadding(new Insets(10, 10, 10, 10));
         vb.setSpacing(10);
-        vb.getChildren().addAll(tf, bt_n, bt_w, bt_e, bt_s, lb);
+        vb.getChildren().addAll(lb_2, tf,bt_name, bt_n, bt_w, bt_e, bt_s,lb);
         var scene = new Scene(vb, 640, 480);
 
         

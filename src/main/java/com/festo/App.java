@@ -101,10 +101,15 @@ public class App extends Application {
         bt_name.setOnAction((e)-> {
             robot.setname(tf.getText());
         });
-
+        //**********************************
+        Button bt_reset = new Button("reset robot");
+        bt_reset.setOnAction((e)-> {
+            BackendComm.resetRobot(robot.getname());
+            robotImageView.setTranslateX(-175); 
+            robotImageView.setTranslateY(-140);
+        });
+        //**********************************
         gridPane.getChildren().addAll(bt_e, bt_n, bt_s, bt_w);
-
-       
 
         Image imageFild = new Image(new FileInputStream("src/main/resources/com/festo/labyrinth-simple.png"));
         ImageView fieldImageView = new ImageView(imageFild);
@@ -115,7 +120,7 @@ public class App extends Application {
         vb.setPadding(new Insets(10, 10, 10, 10));
         vb.setSpacing(10);
         
-        vb.getChildren().addAll(lb_2, tf, bt_name, gridPane, lb, stackPane);
+        vb.getChildren().addAll(lb_2, tf, bt_name, bt_reset, gridPane, lb, stackPane);
         var scene = new Scene(vb, 640, 480);
         stage.setScene(scene);
         stage.show();

@@ -29,14 +29,14 @@ public class App extends Application {
 
 
     @Override
-    public void start(Stage stage) throws FileNotFoundException {
+    public void start(@SuppressWarnings("exports") Stage stage) throws FileNotFoundException {
         Robot robot = new Robot();
         TextField tf = new TextField(robot.getname());
         var lb_2 = new Label("Enter robot name: ");
         var lb = new Label("Result: ");
         int aktPosX = -175;
         int aktPosY = -140;
-        BackendComm.resetRobot(robot.getname());
+        BackendComm.resetRobot(robot.getname()); // Anfang Initialisierung
 
         Image robotImage = new Image(new FileInputStream("src/main/resources/com/festo/robo.png"));
         ImageView robotImageView = new ImageView(robotImage);
@@ -54,7 +54,7 @@ public class App extends Application {
         gridPane.setVgap(10);
 
         Button bt_e = new Button("to east");
-        GridPane.setConstraints(bt_e, 2, 1);
+        GridPane.setConstraints(bt_e, 7, 4);
         bt_e.setOnAction((e) -> {
             int statusCode = BackendComm.moveRobot( robot.getname(), Direction.EAST);
             if (statusCode == 200) {
@@ -65,7 +65,7 @@ public class App extends Application {
             }
         });
         Button bt_w = new Button("to west");
-        GridPane.setConstraints(bt_w, 0, 1);
+        GridPane.setConstraints(bt_w, 5, 4);
         bt_w.setOnAction((e) -> {
             int statusCode = BackendComm.moveRobot(robot.getname(), Direction.WEST);
             if (statusCode == 200) {
@@ -76,7 +76,7 @@ public class App extends Application {
             }
         });
         Button bt_n = new Button("to north");
-        GridPane.setConstraints(bt_n, 1, 0);
+        GridPane.setConstraints(bt_n, 6, 3);
         bt_n.setOnAction((e) -> {
             int statusCode = BackendComm.moveRobot(robot.getname(), Direction.NORTH);
             if (statusCode == 200) {
@@ -87,7 +87,7 @@ public class App extends Application {
             }
         });
         Button bt_s = new Button("to south");
-        GridPane.setConstraints(bt_s, 1, 2);
+        GridPane.setConstraints(bt_s, 6, 5);
         bt_s.setOnAction((e) -> {
             int statusCode = BackendComm.moveRobot(robot.getname(), Direction.SOUTH);
             if (statusCode == 200) {
@@ -97,12 +97,14 @@ public class App extends Application {
                 lb.setText("Result: FAILURE");
             }
         });
-        Button bt_name = new Button("Set robot name");
+        Button bt_name = new Button("Set robot name"); // Set robot name
+        GridPane.setConstraints(bt_name, 0, 0); // Position 1
         bt_name.setOnAction((e)-> {
             robot.setname(tf.getText());
         });
         //**********************************
-        Button bt_reset = new Button("reset robot");
+        Button bt_reset = new Button("reset robot"); // reset robot
+        GridPane.setConstraints(bt_reset, 1, 0); // Position 2
         bt_reset.setOnAction((e)-> {
             BackendComm.resetRobot(robot.getname());
             robotImageView.setTranslateX(-175); 
@@ -110,7 +112,8 @@ public class App extends Application {
         });
         //**********************************
         
-        Button bt_pick = new Button("Pick package");
+        Button bt_pick = new Button("Pick package"); // Pick package
+        GridPane.setConstraints(bt_pick, 2, 0); // Position 3
         bt_pick.setOnAction((e)-> {
         if(!robot.get_robothasitem()) {
             int statusCode = BackendComm.pickItem(robot.getname());
@@ -124,7 +127,8 @@ public class App extends Application {
             lb.setText("Robot already has item");
         }
         });
-        Button bt_drop = new Button("Place package");
+        Button bt_drop = new Button("Place package"); // Place package
+        GridPane.setConstraints(bt_drop, 3, 0); // Position 4
         bt_drop.setOnAction((e)-> {
         if(robot.get_robothasitem()) {
             int statusCode = BackendComm.pickItem(robot.getname());
@@ -138,8 +142,8 @@ public class App extends Application {
                 lb.setText("Robot has no item");
             }
         });
-        
-        gridPane.getChildren().addAll(bt_e, bt_n, bt_s, bt_w);
+
+        gridPane.getChildren().addAll(bt_name, bt_reset, bt_pick, bt_drop, bt_e, bt_n, bt_s, bt_w);
 
         Image imageFild = new Image(new FileInputStream("src/main/resources/com/festo/labyrinth-simple.png"));
         ImageView fieldImageView = new ImageView(imageFild);
@@ -150,7 +154,8 @@ public class App extends Application {
         vb.setPadding(new Insets(10, 10, 10, 10));
         vb.setSpacing(10);
         
-        vb.getChildren().addAll(lb_2, tf, bt_name, bt_reset, bt_pick, bt_drop, gridPane, lb, stackPane);
+        //vb.getChildren().addAll(lb_2, tf, bt_name, bt_reset, gridPane, lb, stackPane);
+        vb.getChildren().addAll(lb_2, tf, gridPane, lb, stackPane);
         var scene = new Scene(vb, 640, 480);
         stage.setScene(scene);
         stage.show();
